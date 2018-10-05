@@ -1,0 +1,34 @@
+{
+  "variables": {                
+    "docker_hub_username": "{{ env `DOCKER_HUB_USERNAME` }}",
+    "docker_hub_password": "{{ env `DOCKER_HUB_PASSWORD` }}",
+    "tag_version": "0.{{timestamp}}"
+  },
+  "builders": [{
+    "type": "docker",
+    "image": "firedot/xenial",
+    "commit": true
+  }],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "firedot/test",
+        "tag": "{{user `tag_version`}}"
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_username": "{{user `docker_hub_username`}}",
+        "login_password": "{{user `docker_hub_password`}}"
+      }
+    ]
+  ],
+  "provisioners": [
+  {
+    "type": "shell",
+    "script": "./scripts/nginx_install.sh"
+}
+ ]
+
+}
