@@ -1,0 +1,14 @@
+---
+ driver:
+   name: docker
+
+ platforms:
+   - name: ubuntu
+     driver:
+         image: firedot/xenial_nginx:0.1538464123
+ suites: 
+ - name: default
+   driver: 
+     provision_command: true
+   verifier: 
+     name: inspec
